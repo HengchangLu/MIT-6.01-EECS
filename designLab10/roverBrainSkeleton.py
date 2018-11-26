@@ -11,11 +11,28 @@ if not labPath in path:
     path.append(labPath)
     print 'setting labPath to', labPath
 
-#from boundaryFollower import boundaryFollowerClass
-        
-class MySMClass(sm.SM):
+from boundaryFollower import boundaryFollowerClass
+
+
+class Stop(sm.SM):
     def getNextValues(self, state, inp):
-         pass
+        return state, io.Action(fvel=0, rvel=0)
+
+
+class MySMClass(sm.SM):
+
+    def getNextValues(self, state, inp):
+        [neck, left, right] = inp.analogInputs[0:3]
+        sonars = inp.sonars
+        [neck, left, right] = inp.analogInputs[0:3]
+        gain = 1
+        if -0.2 < neck - 5 < 0.2:
+            # return (state, io.Action(fvel=1, rvel=0))
+            mySM = boundaryFollowerClass()
+        else:
+            return (state, io.Action(fvel=0, rvel=gain * (neck - 5)))
+        # return state, io.Action(fvel=0.1, rvel=gain * (inp.analogInputs[1]-inp.analogInputs[2]))
+
 
 mySM = MySMClass()
 mySM.name = 'brainSM'
@@ -36,6 +53,7 @@ def brainStart():
     robot.data = []
 
 def step():
+    inp = io.SensorInput().analogInputs
     inp = io.SensorInput()
     robot.behavior.step(inp).execute()
 
