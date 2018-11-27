@@ -19,22 +19,46 @@ class Stop(sm.SM):
         return state, io.Action(fvel=0, rvel=0)
 
 
+# class MySMClass(sm.SM):
+#
+#     def getNextValues(self, state, inp):
+#         [neck, left, right] = inp.analogInputs[0:3]
+#         sonars = inp.sonars
+#         gain = 1
+#         if 4.8 < neck < 5.2:
+#             return state, io.Action(fvel=1, rvel=0)
+#         else:
+#             return (state, io.Action(fvel=0, rvel=gain * (neck - 5)))
+
+
 class MySMClass(sm.SM):
 
     def getNextValues(self, state, inp):
         [neck, left, right] = inp.analogInputs[0:3]
         sonars = inp.sonars
-        [neck, left, right] = inp.analogInputs[0:3]
         gain = 1
-        if -0.2 < neck - 5 < 0.2:
-            # return (state, io.Action(fvel=1, rvel=0))
-            mySM = boundaryFollowerClass()
+        if 4.8 < neck < 5.2:
+            if inp.sonars[3] >= 0.65 or inp.sonars[4] >= 0.65:
+                return state, io.Action(fvel=0.1, rvel=0)
+            if 0.35 < inp.sonars[3] < 0.65 or 0.35 < inp.sonars[4] < 0.65:
+                return state, io.Action(fvel=0, rvel=0)
+            else:
+                return state, io.Action(fvel=-0.1, rvel=0)
+            # mySM = boundaryFollowerClass()
         else:
             return (state, io.Action(fvel=0, rvel=gain * (neck - 5)))
         # return state, io.Action(fvel=0.1, rvel=gain * (inp.analogInputs[1]-inp.analogInputs[2]))
 
 
-mySM = MySMClass()
+mySM1 = MySMClass()
+
+def condition(inp):
+    if inp.analogInputs[3] < 1.5:
+        return True
+    else:
+        return False
+
+mySM = sm.Switch(lambda inp: inp.analogInputs[3] < 1.5, boundaryFollowerClass, mySM1)
 mySM.name = 'brainSM'
     
 
