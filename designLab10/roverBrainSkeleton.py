@@ -14,11 +14,6 @@ if not labPath in path:
 from boundaryFollower import boundaryFollowerClass
 
 
-class Stop(sm.SM):
-    def getNextValues(self, state, inp):
-        return state, io.Action(fvel=0, rvel=0)
-
-
 # class MySMClass(sm.SM):
 #
 #     def getNextValues(self, state, inp):
@@ -34,7 +29,8 @@ class Stop(sm.SM):
 class MySMClass(sm.SM):
 
     def getNextValues(self, state, inp):
-        [neck, left, right] = inp.analogInputs[0:3]
+        # [neck, left, right] = inp.analogInputs[0:3]
+        neck = inp.analogInputs[3]
         sonars = inp.sonars
         gain = 1
         if 4.8 < neck < 5.2:
@@ -51,15 +47,17 @@ class MySMClass(sm.SM):
 
 
 mySM1 = MySMClass()
-
-def condition(inp):
-    if inp.analogInputs[3] < 1.5:
-        return True
-    else:
-        return False
-
-mySM = sm.Switch(lambda inp: inp.analogInputs[3] < 1.5, boundaryFollowerClass, mySM1)
-mySM.name = 'brainSM'
+class Stop(sm.SM):
+    def getNextValues(self, state, inp):
+        return (state,io.Action(fvel=0,rvel=0))
+# def condition(inp):
+#     if inp.analogInputs[3] < 1.5:
+#         return True
+#     else:
+#         return False
+# mySM = sm.Switch()
+# mySM = sm.Switch(lambda inp: inp.analogInputs[3] < 1.5, boundaryFollowerClass, mySM1)
+mySM1.name = 'brainSM'
     
 
 ######################################################################

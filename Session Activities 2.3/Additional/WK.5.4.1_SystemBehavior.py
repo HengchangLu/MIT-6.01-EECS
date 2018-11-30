@@ -3,22 +3,22 @@ import lib601.poly as poly
 import lib601.sig as sig
 import lib601.ts as ts
 
-s1 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, -5.0/6, -1]))
+s1 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([-1, -5.0/6, 1]))
 print 's1.differenceEquation', s1.differenceEquation()
 print 's1.dominantPole():', s1.dominantPole()
 
-# -1.5
+# 1.5
 # stable no
 # oscillatory  yes
 
-s2 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, 5.0/4, 3.0/8]))
+s2 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([3.0/8, 5.0/4, 1]))
 print 's2.differenceEquation', s2.differenceEquation()
 print 's2.dominantPole():', s2.dominantPole()
 # -2.0
 # stable no
 # oscillatory  yes
 
-s3 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, 3.0/2, 9.0/8]))
+s3 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([9.0/8, 3.0/2, 1]))
 print 's3.differenceEquation', s3.differenceEquation()
 print 's3.dominantPole():', s3.dominantPole()
 
@@ -26,7 +26,7 @@ print 's3.dominantPole():', s3.dominantPole()
 # stable yes
 # oscillatory  no
 
-s4 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, 1, 1.0/2]))
+s4 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1.0/2, 1, 1]))
 print 's4.differenceEquation', s4.differenceEquation()
 print 's4.dominantPole():', s4.dominantPole()
 
@@ -34,20 +34,13 @@ print 's4.dominantPole():', s4.dominantPole()
 # stable no
 # oscillatory  yes
 
-s5 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, -13.0/8, 42.0/64]))
-# 3/
-s6 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, 13.0/8, 42.0/64]))
-# 1/
-s7 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, 16.0/8, 63.0/64]))
-# 1/
-s8 = sf.SystemFunction(poly.Polynomial([1]), poly.Polynomial([1, -2.0/8, -63.0/64]))
 
-
-def plotOutput(s):
+def plotOutput(d, c):
     """Plot the output of the given SF, with a unit-step signal as input"""
-    smModel = s.differenceEquation().stateMachine()
+    smModel = sf.DifferenceEquation(d, c).stateMachine()
     outSig = ts.TransducedSignal(sig.UnitSampleSignal(), smModel)
-    outSig.plot()
+    outSig.plot(0, 200)
 
+# s5
+plotOutput([1], [13.0/8, -42.0/64])
 
-plotOutput(s3)
