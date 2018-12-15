@@ -12,6 +12,12 @@ def whiteEqGreenObsDist(actualColor):
         return dist.DDist({actualColor: 1.0})
 
 
+print "whiteEqGreenObsDist('white'):"
+print whiteEqGreenObsDist('white')
+print "whiteEqGreenObsDist('green'):"
+print whiteEqGreenObsDist('green')
+print '\n'
+
 def whiteVsGreenObsDist(actualColor):
     if actualColor == 'white':
         return dist.DDist({'green': 1.0})
@@ -21,6 +27,13 @@ def whiteVsGreenObsDist(actualColor):
         return dist.DDist({actualColor: 1.0})
 
 
+print "whiteVsGreenObsDist('white'):"
+print whiteVsGreenObsDist('white')
+print "whiteVsGreenObsDist('green'):"
+print whiteVsGreenObsDist('green')
+print '\n'
+
+
 def noisyObs(actualColor):
     dict = {actualColor: 0.8}
     possibleColors_length = len(possibleColors)
@@ -28,6 +41,10 @@ def noisyObs(actualColor):
         if color != actualColor:
             dict[color] = 0.2 / (possibleColors_length - 1)
     return dist.DDist(dict)
+
+
+print "noisyObs('white')"
+print noisyObs('white')
 
 
 noisyObsModel = makeObservationModel(standardHallway, noisyObs)
