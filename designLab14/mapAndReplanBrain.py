@@ -31,9 +31,9 @@ mediumNoise = 0.05
 bigNoise = 0.1
 
 # Change noise here
-soar.outputs.simulator.SONAR_VARIANCE = lambda mean: noNoise
-#soar.outputs.simulator.SONAR_VARIANCE = lambda mean: smallNoise
-#soar.outputs.simulator.SONAR_VARIANCE = lambda mean: mediumNoise
+# soar.outputs.simulator.SONAR_VARIANCE = lambda mean: noNoise
+# soar.outputs.simulator.SONAR_VARIANCE = lambda mean: smallNoise
+soar.outputs.simulator.SONAR_VARIANCE = lambda mean: mediumNoise
 #soar.outputs.simulator.SONAR_VARIANCE = lambda mean: bigNoise
 
 
@@ -46,12 +46,13 @@ mazeWorld = [0.15, util.Point(2.0, 0.5), (-0.5, 5.5, -0.5, 5.5)]
 dl14World = [0.15, util.Point(3.5, 0.5), (-0.5, 5.5, -0.5, 5.5)]
 bigPlanWorld = [0.25, util.Point(3.0, 1.0), (-0.5, 10.5, -0.5, 10.5)]
 lizWorld = [0.25, util.Point(9.0, 1.0), (-0.5, 10.5, -0.5, 10.5)]
+sduWorld = [0.15, util.Point(2.5, 0.5), (-0.5, 3.5, -0.5, 4.5)]
 
 def useWorld(data):
     global gridSquareSize, goalPoint, xMin, xMax, yMin, yMax
     (gridSquareSize, goalPoint, (xMin, xMax, yMin, yMax)) = data
 
-useWorld(dl14World)
+useWorld(sduWorld)
 
 
 ######################################################################
